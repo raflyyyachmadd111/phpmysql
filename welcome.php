@@ -45,20 +45,20 @@ $result_barang = mysqli_query($koneksi, $query_barang);
                     if (isset($_SESSION['error'])) {
 
                     ?>
-                    <div class="alert alert-danger" role="alert">
-                         <?php echo $_SESSION["error"]; ?>
-                         <?php unset($_SESSION["error"]); ?>
-                    </div>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $_SESSION["error"]; ?>
+                            <?php unset($_SESSION["error"]); ?>
+                        </div>
                     <?php
-                  } else if (isset($_SESSION["success"])) {
-                  ?>
-                  <div class="alert alert-success" role="alert">
-                    <?php echo $_SESSION["success"]; ?>
-                    <?php unset ($_SESSION["success"]);?>
-                  </div>
-                  <?php
-                  }
-                  ?>
+                    } else if (isset($_SESSION["success"])) {
+                    ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php echo $_SESSION["success"]; ?>
+                            <?php unset($_SESSION["success"]); ?>
+                        </div>
+                    <?php
+                    }
+                    ?>
                     <div class="card-body text-center">
                         <p>Selamat datang, <?php echo $usere; ?>!</p>
                         <!-- Tambahkan tab untuk tabel pengguna dan tabel barang -->
@@ -109,8 +109,37 @@ $result_barang = mysqli_query($koneksi, $query_barang);
                             <div class="tab-pane fade" id="barang">
                                 <div class="table-responsive">
                                     <h4>Tabel Barang</h4>
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="tambahbarang.php" class="btn btn-primary my-3">Tambah Data Barang</a>
+                                        </div>
+                                    </div>
                                     <table class="table table-bordered">
-                                        <!-- Struktur tabel barang -->
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Nama Barang</th>
+                                                <th>Harga Barang</th>
+                                                <th>Jumlah Barang</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            while ($row = mysqli_fetch_assoc($result_barang)) {
+                                                echo "<tr>";
+                                                echo "<td>{$row['id']}</td>";
+                                                echo "<td>{$row['nama_barang']}</td>";
+                                                echo "<td>{$row['harga_barang']}</td>";
+                                                echo "<td>{$row['jumlah_barang']}</td>";
+                                                echo "<td>
+                                        <a href='editbarang.php?id={$row['id']}' class='btn btn-warning btn-sm'>Edit</a>
+                                        <a href='deletebarang.php?id={$row['id']}' class='btn btn-danger btn-sm'>Delete</a>
+                                      </td>";
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -134,7 +163,6 @@ $result_barang = mysqli_query($koneksi, $query_barang);
                 cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Logout'
             }).then((result) => {
-
                 window.location.href = 'logout.php';
             });
         }
